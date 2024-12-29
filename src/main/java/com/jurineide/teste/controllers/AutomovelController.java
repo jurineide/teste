@@ -1,15 +1,14 @@
 package com.jurineide.teste.controllers;
 
 import com.jurineide.teste.dtos.AutomovelDTO;
+import com.jurineide.teste.dtos.AutomovelReponseDTO;
 import com.jurineide.teste.services.AutomovelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AutomovelController {
@@ -18,16 +17,23 @@ public class AutomovelController {
     AutomovelService automovelService;
 
     @PostMapping("/postAutomoveis")
-    public ResponseEntity<AutomovelDTO>saveAutomovel(@RequestBody AutomovelDTO automovelDTO) {
-        return ResponseEntity.ok(automovelService.save(automovelDTO));
+    public ResponseEntity<AutomovelDTO>saveAutomovel(@RequestBody AutomovelDTO automovel) {
+        return ResponseEntity.ok(automovelService.save(automovel));
     }
 
 
 
 
     @GetMapping("/getAllAutomoveis")
-    public List<AutomovelDTO> findAll(){
+    public List<AutomovelReponseDTO> findAll(){
         var response = automovelService.findAll();
         return  response;
+    }
+
+    @GetMapping("/getbyId/{id}")
+    public Optional<AutomovelReponseDTO> findById(@PathVariable Long id) {
+        var response = automovelService.finById(id);
+        return  response;
+
     }
 }
